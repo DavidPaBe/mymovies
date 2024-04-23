@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }}</title>
+</head>
+<body>
+    <h1>{{ movie.title }}</h1>
+    <p>{{ movie.overview }}</p>
+    <p>Fecha de lanzamiento: {{ movie.release_date }}</p>
+    <p>Duración: {{ movie.running_time }} minutos</p>
+    <p>Presupuesto: {{ movie.budget }}</p>
+    <p>Ingresos: {{ movie.revenue }}</p>
+    <h2>Géneros:</h2>
+    <ul>
+        {% for genre in movie.genres.all %}
+            <li>{{ genre.name }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Créditos:</h2>
+    <ul>
+        {% for credit in movie.moviecredit_set.all %}
+            <li>{{ credit.person.name }} - {{ credit.job.name }}</li>
+        {% endfor %}
+    </ul>
+    <!-- Aquí podrías agregar una sección para mostrar críticas -->
+</body>
+</html>
