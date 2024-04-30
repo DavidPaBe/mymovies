@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ movie.title }}</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ movie.title }}
+{% endblock %}
+
+{% block content %}
     <h1>{{ movie.title }}</h1>
     <p>{{ movie.overview }}</p>
     <p>Fecha de lanzamiento: {{ movie.release_date }}</p>
@@ -25,5 +24,4 @@
         {% endfor %}
     </ul>
     <!-- Aquí podrías agregar una sección para mostrar críticas -->
-</body>
-</html>
+{% endblock %}
