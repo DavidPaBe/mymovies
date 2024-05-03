@@ -725,11 +725,6 @@ select {
   margin-right: auto;
 }
 
-.my-4 {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -760,10 +755,6 @@ select {
 
 .h-12 {
   height: 3rem;
-}
-
-.h-\[32rem\] {
-  height: 32rem;
 }
 
 .w-2\/3 {
@@ -811,11 +802,6 @@ select {
 .bg-indigo-600 {
   --tw-bg-opacity: 1;
   background-color: rgb(79 70 229 / var(--tw-bg-opacity));
-}
-
-.bg-slate-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 
 .px-3 {
