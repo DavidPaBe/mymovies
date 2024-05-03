@@ -1,32 +1,26 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
     <head>
+        <title>Página de Ejemplo</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tu Título</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="/static/movies/css/output.css" rel="stylesheet">
     </head>
-    <body>
-        
-        <!-- Contenido compartido entre tus páginas aquí -->
-        {% block content %}
-        <h1>Lista de películas</h1>
-        {% if movie_list %}
-            <ul>
-            {% for movie in movie_list %}
-                <li>
-                    <h2>{{ movie.title }}</h2>
-                    <img class="poster" src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" alt="{{ movie.title }}">
-                    <p>{{ movie.overview }}</p>
-                    <p>Fecha de lanzamiento: {{ movie.release_date }}</p>
-                    <!-- Puedes agregar más detalles aquí según lo desees -->
-                    <a href="{% url 'movie_detail' movie.pk %}">Ver detalles</a>
-                </li>
-            {% endfor %}
-            </ul>
-        {% else %}
-            <p>No hay películas disponibles.</p>
-        {% endif %}
-        {% endblock %}
+    <body class="font-sans max-w-4xl mx-auto">
+    <header class="h-12 w-full text-center mx-auto mt-5 border-b-2 border-sky-500">
+        <h1 class="font-medium text-3xl">My Movies</h1>
+    </header>
+   
+    <article>
+            {% block article %}
+
+            {% endblock %}
+    </article>
+
+    <footer>
+        <p> Proyecto de ejemplo de la materia Programación Web</p>
+        <p><a href="github.com\miusuario\elrepo"> GitHub Repository</a></p>
+    </footer>
+
     </body>
 </html>

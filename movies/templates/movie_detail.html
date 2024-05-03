@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    {{ movie.title }}
-{% endblock %}
 
-{% block content %}
+
+{% block article %}
     <h1>{{ movie.title }}</h1>
     <p>{{ movie.overview }}</p>
     <p>Fecha de lanzamiento: {{ movie.release_date }}</p>
@@ -24,4 +22,4 @@
         {% endfor %}
     </ul>
     <!-- Aquí podrías agregar una sección para mostrar críticas -->
-{% endblock %}
+{% endblock article%}
