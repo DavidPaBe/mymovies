@@ -4,6 +4,7 @@
 
 <a href = "your_name/"> Pon tu nombre</a>
 
+
 {% if movie_list %}
     <ul>
     {% for movie in movie_list%}
@@ -16,7 +17,7 @@
     {% endfor %}
     </ul>
 {% else %}
-    <p>No movies are available.</p>
+    <p>No hay películas disponibles.</p>
 {% endif %}
 
 {% endblock article%}
