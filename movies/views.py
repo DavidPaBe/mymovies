@@ -15,10 +15,10 @@ def get_name(request):
             print(form.cleaned_data)
             # process the data in form.cleaned_data as required
             # ...
-            print(form.cleaned_data)
             # redirect to a new URL:
             return render(request, "name_ok.html", {"form": form})
-
+        else:
+            return render(request, "name_ok.html", {"form": form})
     # if a GET (or any other method) we'll create a blank form
     else:
         form = NameForm()

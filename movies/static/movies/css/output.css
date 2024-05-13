@@ -765,10 +765,6 @@ select {
   width: 100%;
 }
 
-.max-w-4xl {
-  max-width: 56rem;
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -821,10 +817,6 @@ select {
 
 .text-center {
   text-align: center;
-}
-
-.font-sans {
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .text-3xl {
