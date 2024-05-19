@@ -1,25 +1,41 @@
-
-
-
-{% block article %}
-    <h1>{{ movie.title }}</h1>
-    <img src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" alt="{{ movie.title }}">
-    <p>{{ movie.overview }}</p>
-    <p>Fecha de lanzamiento: {{ movie.release_date }}</p>
-    <p>Duración: {{ movie.running_time }} minutos</p>
-    <p>Presupuesto: {{ movie.budget }}</p>
-    <p>Ingresos: {{ movie.revenue }}</p>
-    <h2>Géneros:</h2>
-    <ul>
-        {% for genre in movie.genres.all %}
-            <li>{{ genre.name }}</li>
-        {% endfor %}
-    </ul>
-    <h2>Créditos:</h2>
-    <ul>
-        {% for credit in movie.moviecredit_set.all %}
-            <li>{{ credit.person.name }} - {{ credit.job.name }}</li>
-        {% endfor %}
-    </ul>
-    <!-- Aquí podrías agregar una sección para mostrar críticas -->
-{% endblock article%}
+    <article>
+        <div class="flex h-[32rem] bg-slate-200 my-4">
+            <img src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" alt="{{ movie.title }}">
+            <header>
+            <h1 class="movie-title">{{ movie.title }}</h1>
+            <div class="movie-info">
+                <p>Fecha de lanzamiento: {{ movie.release_date }}</p> 
+                    
+                <ul class="movie-genre"> 
+                    <h2>Géneros:</h2>
+                    {% for genre in movie.genres.all %}
+                        <li>{{ genre.name }}</li>
+                    {% endfor %}
+                </ul>
+                
+                <p>Duración: {{ movie.running_time }} minutos</p>  
+            </div>         
+                
+                
+            <h1>Overview</h1>
+            <p>{{ movie.overview }}</p>
+                <details>
+                    <summary>Detalles de producción</summary>
+                    <p> Presupuesto: {{ movie.budget }} </p>
+                    <p> Ingresos: {{ movie.revenue }}</p>
+                </details>
+            </header>
+        </div>
+    
+            <h1>Top Billed Cast</h1>
+            
+            <div class="cast"> 
+            <details>
+                <summary>Cast</summary>
+            	{% for credit in movie.moviecredit_set.all %}
+                	<p>{{ credit.person.name }} - {{ credit.job.name }}</p>
+            	{% endfor %}
+        	</details>
+            </div>
+            
+    </article>

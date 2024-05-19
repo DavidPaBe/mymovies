@@ -3,6 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from movies.models import Movie
 from .forms import NameForm
 
+from django.contrib.auth import authenticate, login, logout
+
+
 
 # Create your views here.
 def get_name(request):
@@ -24,7 +27,13 @@ def get_name(request):
         form = NameForm()
 
     return render(request, "name.html", {"form": form})
-    # return render(request, "movies/name.html", {"form": form})
+   
+
+
+#def logout_view(request):
+ #   logout(request)
+    # Redirect to a success page.
+ #   return render(request, "index.html", context=context)
 
 
 
