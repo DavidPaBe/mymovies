@@ -1,7 +1,7 @@
-    <article>
-        <div class="flex h-[32rem] bg-slate-200 my-4">
-            <img src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" alt="{{ movie.title }}">
-            <header>
+<article>
+    <div class="flex h-[32rem] bg-slate-200 my-4">
+        <img src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" alt="{{ movie.title }}">
+        <header>
             <h1 class="movie-title">{{ movie.title }}</h1>
             <div class="movie-info">
                 <p>Fecha de lanzamiento: {{ movie.release_date }}</p> 
@@ -19,23 +19,43 @@
                 
             <h1>Overview</h1>
             <p>{{ movie.overview }}</p>
-                <details>
-                    <summary>Detalles de producción</summary>
-                    <p> Presupuesto: {{ movie.budget }} </p>
-                    <p> Ingresos: {{ movie.revenue }}</p>
-                </details>
-            </header>
-        </div>
-    
-            <h1>Top Billed Cast</h1>
-            
-            <div class="cast"> 
             <details>
-                <summary>Cast</summary>
-            	{% for credit in movie.moviecredit_set.all %}
-                	<p>{{ credit.person.name }} - {{ credit.job.name }}</p>
-            	{% endfor %}
-        	</details>
+                <summary>Detalles de producción</summary>
+                <p> Presupuesto: {{ movie.budget }} </p>
+                <p> Ingresos: {{ movie.revenue }}</p>
+            </details>
+        </header>
+    </div>
+
+    <h1>Top Billed Cast</h1>
+    <div class="cast"> 
+        <details>
+            <summary>Cast</summary>
+            {% for credit in movie.moviecredit_set.all %}
+                <p>{{ credit.person.name }} - {{ credit.job.name }}</p>
+            {% endfor %}
+        </details>
+    </div>
+
+    <h1>Reviews</h1>
+    <div class="reviews">
+        {% for review in movie.moviereview_set.all %}
+            <div class="review">
+                <p>User: {{ review.user.username }}</p>
+                <p>Rating: {{ review.rating }}</p>
+                <p>Review: {{ review.review }}</p>
             </div>
-            
-    </article>
+        {% empty %}
+            <p>No reviews yet.</p>
+        {% endfor %}
+    </div>
+
+    <h1>Add Review</h1>
+    <div class="add-review">
+        <form method="post" action="{% url 'add_movie_review' movie.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</article>
