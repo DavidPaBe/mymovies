@@ -8,3 +8,4 @@ urlpatterns = [
     path("your_name/", views.get_name, name="get_name"),
     #path("accounts/logout", views.logout_view(), name="logout"),
 ]
+
