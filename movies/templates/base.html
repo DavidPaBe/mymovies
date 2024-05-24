@@ -1,30 +1,5 @@
-<!-- /mymoviess/movies/templates/movies/index.html -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Página de Ejemplo</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="/static/movies/css/output.css" rel="stylesheet">
-        <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
-        <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
-          
-          
-          
-            {% if user.is_authenticated %}
-            <p>Bienvenido!, {{ user.username }}</p>
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button type="submit">Cerrar Sesión</button>
-            </form>
-            
-            {% else %}
-            <a href="{% url 'login' %}">Iniciar Sesión</a>
-            {% endif %}
-            
-    </head>
-    <body class="bg-white dark:bg-slate-900 w-screen mx-auto" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-
 <head>
     <title>Página de Ejemplo</title>
     <meta charset="UTF-8">
@@ -34,16 +9,25 @@
     <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 </head>
 <body class="bg-white w-screen mx-auto" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-
     <header class="h-12 w-full text-center mx-auto mt-5 border-b-2 border-sky-500">
         <h1 class="font-medium text-3xl">My Movies</h1>
     </header>
+    <br/>
+    {% if user.is_authenticated %}
+    <p>Bienvenido!, {{ user.username }}</p>
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Cerrar Sesión</button>
+    </form>
+    {% else %}
+    <a href="{% url 'login' %}">Iniciar Sesión</a>
+    {% endif %}
+    
     <article>
-        
         {% block article %}
         {% endblock %}
     </article>
-    <br/>
+
     <footer>
         <p>Proyecto de ejemplo de la materia Programación Web</p>
         <p><a href="https://github.com/Sencion7/mymoviess">MyMoviess</a></p>

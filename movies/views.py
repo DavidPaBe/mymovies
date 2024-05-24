@@ -1,13 +1,15 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from movies.models import Movie
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
+from movies.models import Movie, MovieReview, ReviewVote
 from .forms import NameForm
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
+from django.contrib import messages
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -38,10 +40,10 @@ def index(request):
     return render(request, "index.html", context=context)
 
 
-def movie_detail(request, movie_id):
-    movie = Movie.objects.get(pk=movie_id)
+def movie_detail(request, movie_id):    
+    movie = get_object_or_404(Movie, pk=movie_id)
     context = {'movie': movie}
-    return render(request, "movie_detail.html", context=context)
+    return render(request, 'movie_detail.html', {'movie': movie})
     
 def custom_logout_view(request):
     logout(request)
@@ -73,3 +75,35 @@ def add_movie_review(request, movie_id):
     else:
         form = MovieReviewForm()
     return render(request, 'add_movie_review.html', {'form': form, 'movie': movie})
+
+
+@login_required
+def vote_review(request, review_id, vote_type):
+    review = get_object_or_404(MovieReview, id=review_id)
+    vote_value = 1 if vote_type == 'useful' else -1
+
+    # Check if the user has already voted
+    existing_vote = ReviewVote.objects.filter(user=request.user, review=review).first()
+    if existing_vote:
+        if existing_vote.vote == vote_value:
+            return HttpResponseForbidden("You have already voted this way.")
+        else:
+            # Update the existing vote
+            existing_vote.vote = vote_value
+            existing_vote.save()
+    else:
+        # Create a new vote
+        ReviewVote.objects.create(user=request.user, review=review, vote=vote_value)
+
+    # Update the counts on the review
+    if vote_value == 1:
+        review.useful_count += 1
+        if existing_vote:
+            review.not_useful_count -= 1
+    else:
+        review.not_useful_count += 1
+        if existing_vote:
+            review.useful_count -= 1
+
+    review.save()
+    return redirect('movie_detail', movie_id=review.movie.pk)

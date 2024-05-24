@@ -50,6 +50,21 @@ class MovieCredit(models.Model):
 class MovieReview(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(1),
-                                                          MaxValueValidator(100)])
+    rating = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)])
     review = models.TextField(blank=True)
+    useful_count = models.IntegerField(default=0)
+    not_useful_count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.movie.title}"
+
+class ReviewVote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    review = models.ForeignKey(MovieReview, on_delete=models.CASCADE)
+    vote = models.IntegerField()  # 1 for useful, -1 for not useful
+
+    class Meta:
+        unique_together = ('user', 'review')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.review} - {self.vote}"
