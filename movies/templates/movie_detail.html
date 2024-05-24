@@ -1,41 +1,71 @@
-    <article>
-        <div class="flex h-[32rem] bg-slate-200 my-4">
-            <img src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" alt="{{ movie.title }}">
-            <header>
-            <h1 class="movie-title">{{ movie.title }}</h1>
+{% extends "base.html" %}
+
+{% block article %}
+<article>
+    <div class="flex h-[32rem] bg-slate-200 my-4">
+        <img src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" alt="{{ movie.title }}">
+        <header>
+            <h1 class="mt-2 font-bold">{{ movie.title }}</h1>
             <div class="movie-info">
-                <p>Fecha de lanzamiento: {{ movie.release_date }}</p> 
+                <h2 class ="font-semibold">Fecha de lanzamiento: </h2>  <p>{{ movie.release_date }}</p> 
                     
                 <ul class="movie-genre"> 
-                    <h2>Géneros:</h2>
+                    <h2 class="font-semibold">Géneros:</h2>
                     {% for genre in movie.genres.all %}
                         <li>{{ genre.name }}</li>
                     {% endfor %}
                 </ul>
                 
-                <p>Duración: {{ movie.running_time }} minutos</p>  
+                <h2 class ="font-semibold">Duración: </h2> <p>{{ movie.running_time }} minutos</p>  
             </div>         
                 
                 
-            <h1>Overview</h1>
+            <h1 class="font-semibold">Overview</h1>
             <p>{{ movie.overview }}</p>
-                <details>
-                    <summary>Detalles de producción</summary>
-                    <p> Presupuesto: {{ movie.budget }} </p>
-                    <p> Ingresos: {{ movie.revenue }}</p>
-                </details>
-            </header>
-        </div>
-    
-            <h1>Top Billed Cast</h1>
-            
-            <div class="cast"> 
             <details>
-                <summary>Cast</summary>
-            	{% for credit in movie.moviecredit_set.all %}
-                	<p>{{ credit.person.name }} - {{ credit.job.name }}</p>
-            	{% endfor %}
-        	</details>
+                <summary class = "font-semibold">Detalles de producción</summary>
+                <p> Presupuesto: {{ movie.budget }} </p>
+                <p> Ingresos: {{ movie.revenue }}</p>
+            </details>
+        </header>
+    </div>
+
+    <h1 class = "font-semibold">Top Billed Cast</h1>
+    <div class="font-semibold"> 
+        <details>
+            <summary>Cast</summary>
+            {% for credit in movie.moviecredit_set.all %}
+                <p>{{ credit.person.name }} - {{ credit.job.name }}</p>
+            {% endfor %}
+        </details>
+    </div>
+ 
+ 
+ 
+ 
+    <h1 class = "font-semibold">Reviews</h1>
+    <div class="reviews">
+        {% for review in movie.moviereview_set.all %}
+            <div class="flex-auto h-auto bg-slate-200 my-4">
+                 <h2 class ="font-semibold">User: </h2>  <p>{{ review.user.username }}</p> 
+                  <h2 class ="font-semibold">Rating: </h2>  <p>{{ review.rating }}</p> 
+                   <h2 class ="font-semibold">Review: </h2>  <p>{{ review.review }}</p> 
             </div>
-            
-    </article>
+        {% empty %}
+            <p>No reviews yet.</p>
+        {% endfor %}
+    </div>
+
+    <h1 class = "font-bold">Add Review</h1>
+    <div class="add-review">
+        <form method="post" action="{% url 'add_movie_review' movie.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+</article>
+
+
+{% endblock article %}

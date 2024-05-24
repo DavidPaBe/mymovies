@@ -2,16 +2,37 @@
 
 {% block article %}
 
-<a href = "your_name/"> Pon tu nombre</a>
-
 {% if movie_list %}
-    <ul>
-    {% for movie in movie_list%}
-        <li><a hx-post="/movies/{{ movie.id }}/"  hx-swap="innerHTML" href= "/movies/{{ movie.id }}/"> {{ movie.title }}</a></li>
+    <div id="movie_list"class="flex flex-wrap overflow-x-scroll overflow-y-hidden justify-center">
+        {% for movie in movie_list %}
+            <div class="flex-none w-full h-full bg-slate-200 sm:w-48 sm:h-96 mx-2 my-4  rounded-lg">
+                
+                <img class = "h-4/6 w-full sm:w-48 sm:h-4/6 rounded-lg shadow-lg"
+                src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" 
+                alt="{{ movie.title }} poster">
+                <div clas "p-2">
+                    <h1 class="text-nowrap text-ellipsis overflow-hidden">
+                        <a class="mt-2 font-semibold" href="/movies/{{ movie.id }}/">{{ movie.title }}</a>
+                    </h1>
+                    
+                    <p class "text-nowrap p-2">
+                    {{ movie.release_date |date:"M. j, Y"}}
+                    </p>
+                </div>
+            </div>
     {% endfor %}
-    </ul>
+    </div>
+        
+    <h1 class="font-bold">Lista de Películas:</h1>
+    {% for movie in movie_list%}
+        <li class =  "font-medium"><a href= "/movies/{{ movie.id }}/"> {{ movie.title }}  ({{ movie.release_date |date:"Y"}})</a></li>
+    {% endfor %}
+    
 {% else %}
     <p>No movies are available.</p>
 {% endif %}
 
+
+
 {% endblock article %}
+

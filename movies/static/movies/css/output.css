@@ -720,6 +720,11 @@ select {
   --tw-contain-style:  ;
 }
 
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -736,6 +741,10 @@ select {
 
 .ml-16 {
   margin-left: 4rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
 }
 
 .mt-5 {
@@ -758,12 +767,28 @@ select {
   display: flex;
 }
 
+.hidden {
+  display: none;
+}
+
 .h-12 {
   height: 3rem;
 }
 
+.h-4\/6 {
+  height: 66.666667%;
+}
+
 .h-\[32rem\] {
   height: 32rem;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.h-auto {
+  height: auto;
 }
 
 .w-2\/3 {
@@ -778,8 +803,28 @@ select {
   width: 100vw;
 }
 
+.flex-none {
+  flex: none;
+}
+
+.flex-auto {
+  flex: 1 1 auto;
+}
+
+.flex-1 {
+  flex: 1 1 0%;
+}
+
+.grow {
+  flex-grow: 1;
+}
+
 .flex-col {
   flex-direction: column;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
 }
 
 .items-center {
@@ -790,9 +835,37 @@ select {
   justify-content: flex-end;
 }
 
+.justify-center {
+  justify-content: center;
+}
+
 .gap-x-6 {
   -moz-column-gap: 1.5rem;
        column-gap: 1.5rem;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+
+.overflow-x-scroll {
+  overflow-x: scroll;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+}
+
+.text-nowrap {
+  text-wrap: nowrap;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
 .rounded-md {
@@ -823,6 +896,10 @@ select {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.p-2 {
+  padding: 0.5rem;
+}
+
 .px-3 {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -847,12 +924,20 @@ select {
   line-height: 1.25rem;
 }
 
+.font-bold {
+  font-weight: 700;
+}
+
 .font-medium {
   font-weight: 500;
 }
 
 .font-semibold {
   font-weight: 600;
+}
+
+.font-light {
+  font-weight: 300;
 }
 
 .leading-6 {
@@ -867,6 +952,12 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.shadow-lg {
+  --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .shadow-sm {
@@ -894,6 +985,20 @@ select {
 
 .focus-visible\:outline-indigo-600:focus-visible {
   outline-color: #4f46e5;
+}
+
+@media (min-width: 640px) {
+  .sm\:h-4\/6 {
+    height: 66.666667%;
+  }
+
+  .sm\:h-96 {
+    height: 24rem;
+  }
+
+  .sm\:w-48 {
+    width: 12rem;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
