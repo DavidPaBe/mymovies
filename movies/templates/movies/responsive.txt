@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block article %}
+
+
+<div class = "flex flex-wrap h-[32rem] bg-slate-200 my-4"> 
+    <img class=" w-full sm:w-64 rounded-lg shadow-lg img-movie"
+                src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" 
+                alt="{{ movie.title }} poster">
+                
+    <div class="w-full sn:w-4/6 bg-gray-600 movie-info"> </div>
+    <div class="w-full hidden bg-blue-600 movie-cast"> </div>
+    
+
+</div>
+
+
+{% endblock article%}

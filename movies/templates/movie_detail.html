@@ -9,7 +9,7 @@
         <div class="w-full md:w-1/2 px-4 mb-8">
             <h1 class="text-3xl font-bold mb-4">{{ movie.title }}</h1>
             <div class="movie-info mb-4">
-                <p><span class="font-semibold">Fecha de lanzamiento:</span> {{ movie.release_date }}</p> 
+                <p><span class="font-semibold">Fecha de lanzamiento:</span> {{ movie.release_date |date:"M. j, Y"}}</p> 
                 <p><span class="font-semibold">Géneros:</span> 
                     {% for genre in movie.genres.all %}
                         {{ genre.name }}{% if not forloop.last %}, {% endif %}
