@@ -10,7 +10,7 @@ from django.contrib import messages
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
+from django.db.models import Avg, Count
 
 
 # Create your views here.
@@ -107,3 +107,73 @@ def vote_review(request, review_id, vote_type):
 
     review.save()
     return redirect('movie_detail', movie_id=review.movie.pk)
+    
+@login_required
+def recommended_movies(request):
+    user_reviews = MovieReview.objects.filter(user=request.user)
+    if user_reviews.exists():
+        # Get the genres of movies the user has reviewed positively (rating >= 50)
+        liked_genres = Movie.objects.filter(reviews__in=user_reviews, reviews__rating__gte=50).values_list('genres', flat=True)
+        # Get movies in the liked genres and exclude movies the user has already reviewed
+        recommended_movies = Movie.objects.filter(genres__in=liked_genres).exclude(reviews__user=request.user).annotate(avg_rating=Avg('reviews__rating')).order_by('-avg_rating')[:10]
+    else:
+        # If the user has no reviews, recommend top rated movies
+        recommended_movies = Movie.objects.annotate(avg_rating=Avg('reviews__rating')).order_by('-avg_rating')[:10]
+    
+    return render(request, 'recommended_movies.html', {'recommended_movies': recommended_movies})
+    
+@login_required
+def movie_list(request):
+    movies = Movie.objects.all()
+    
+    user_reviews = MovieReview.objects.filter(user=request.user)
+    if user_reviews.exists():
+        # Obtener los géneros de las películas que el usuario ha calificado positivamente (rating >= 50)
+        liked_genres = Movie.objects.filter(reviews__in=user_reviews, reviews__rating__gte=50).values_list('genres', flat=True)
+        # Obtener películas en los géneros que le gustaron al usuario y excluir películas ya calificadas por el usuario
+        recommended_movies = Movie.objects.filter(Q(genres__in=liked_genres)).exclude(reviews__user=request.user).annotate(avg_rating=Avg('reviews__rating')).order_by('-avg_rating')[:10]
+    else:
+        # Si el usuario no tiene reseñas, recomendar las películas mejor calificadas
+        recommended_movies = Movie.objects.annotate(avg_rating=Avg('reviews__rating')).order_by('-avg_rating')[:10]
+    
+    return render(request, 'movie_list.html', {'movie_list': movies, 'recommended_movies': recommended_movies})
+    
+def get_recommendations(user):
+    user_reviews = MovieReview.objects.filter(user=user)
+    
+    if user_reviews.exists():
+        # Si el usuario tiene reseñas, usa la lógica de recomendación personalizada
+        # Aquí deberías implementar tu algoritmo de recomendación personalizado
+        # Este es solo un ejemplo básico
+        movie_scores = Movie.objects.annotate(avg_rating=Avg('moviereview__rating')).order_by('-avg_rating')
+        recommendations = movie_scores[:5]
+    else:
+        # Si el usuario no tiene reseñas, muestra algunas películas populares
+        # por ejemplo, las películas con más reseñas
+        popular_movies = Movie.objects.annotate(num_reviews=Count('moviereview')).order_by('-num_reviews')
+        recommendations = popular_movies[:5]
+
+    return recommendations
+
+@login_required
+def recommended_movies(request):
+    recommended_movies = Movie.objects.annotate(avg_rating=Avg('moviereview__rating')).order_by('-avg_rating')[:5]
+    
+    if not recommended_movies.exists():
+        recommended_movies = Movie.objects.annotate(num_reviews=Count('moviereview')).order_by('-num_reviews')[:5]
+
+    return render(request, 'movies/recommended_movies.html', {'recommended_movies': recommended_movies})
+
+
+def movie_detail(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    reviews = MovieReview.objects.filter(movie=movie)
+    
+    # Filtrar para excluir la película actual
+    recommendations = Movie.objects.annotate(avg_rating=Avg('moviereview__rating')).exclude(pk=movie_id).order_by('-avg_rating')[:5]
+
+    return render(request, 'movie_detail.html', {
+        'movie': movie,
+        'reviews': reviews,
+        'recommendations': recommendations
+    })

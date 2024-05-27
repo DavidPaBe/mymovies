@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block article %}
+<div class="recommended-section">
+    <h2>Recommended Movies</h2>
+    <div class="movie-list">
+        {% for movie in recommended_movies %}
+            <div class="movie-item">
+                <img src="/static/movies/assets/img/{{ movie.title|slugify }}.jpg" alt="{{ movie.title }}">
+                <h2>{{ movie.title }}</h2>
+                <p>Average Rating: {{ movie.avg_rating|default:"N/A" }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

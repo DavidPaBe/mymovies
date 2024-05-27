@@ -1,12 +1,31 @@
 {% extends "base.html" %}
 
 {% block article %}
-
-<h2>Add Review for {{ movie.title }}</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
-</form>
-
+<article class="max-w-4xl mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-4">Add Review for {{ movie.title }}</h2>
+    <form method="post" class="flex flex-col items-center">
+        {% csrf_token %}
+        <div class="flex flex-col items-start w-full max-w-md">
+            <label for="id_rating" class="text-lg font-semibold mb-2">Rating:</label>
+            <div class="flex items-center">
+                {% for i in "12345" %}
+                    <input type="radio" id="id_rating_{{ i }}" name="rating" value="{{ i }}" class="sr-only">
+                    <label for="id_rating_{{ i }}" class="text-2xl text-yellow-400 cursor-pointer">
+                        {% if form.instance.rating|default:"" == i %}
+                            &#9733;
+                        {% else %}
+                            &#9734;
+                        {% endif %}
+                    </label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="w-full max-w-md">
+            {{ form.review.errors }}
+            <label for="id_review" class="text-lg font-semibold mt-4">Review:</label>
+            {{ form.review }}
+        </div>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Submit</button>
+    </form>
+</article>
 {% endblock article %}

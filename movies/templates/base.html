@@ -8,27 +8,31 @@
     <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
 </head>
-<body class="bg-white w-screen mx-auto" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-    <header class="h-12 w-full text-center mx-auto mt-5 border-b-2 border-sky-500">
-        <h1 class="font-medium text-3xl">My Movies</h1>
+<body class="bg-white mx-auto" style="margin: 0 2.5%;">
+    <header class="h-12 w-full mx-auto mt-5 border-b-2 border-sky-500 flex flex-col items-center">
+        <div class="flex justify-between w-full">
+            <a href="{% url 'index' %}" class="text-sky-500 hover:underline">Inicio</a>
+            <h1 class="font-medium text-3xl text-center flex-grow">My Movies</h1>
+            <div class="text-right">
+                {% if user.is_authenticated %}
+                <p>Bienvenido, {{ user.username }}</p>
+                <form method="post" action="{% url 'logout' %}" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="text-sky-500 hover:underline">Cerrar Sesión</button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="text-sky-500 hover:underline">Iniciar Sesión</a>
+                {% endif %}
+            </div>
+        </div>
     </header>
     <br/>
-    {% if user.is_authenticated %}
-    <p>Bienvenido!, {{ user.username }}</p>
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Cerrar Sesión</button>
-    </form>
-    {% else %}
-    <a href="{% url 'login' %}">Iniciar Sesión</a>
-    {% endif %}
-    
     <article>
         {% block article %}
         {% endblock %}
     </article>
 
-    <footer>
+    <footer class="text-center mt-8">
         <p>Proyecto de ejemplo de la materia Programación Web</p>
         <p><a href="https://github.com/Sencion7/mymoviess">MyMoviess</a></p>
     </footer>

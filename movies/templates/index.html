@@ -1,38 +1,55 @@
 {% extends "base.html" %}
 
 {% block article %}
-
-{% if movie_list %}
-    <div id="movie_list"class="flex flex-wrap overflow-x-scroll overflow-y-hidden justify-center">
-        {% for movie in movie_list %}
-            <div class="flex-none w-full h-full bg-slate-200 sm:w-48 sm:h-96 mx-2 my-4  rounded-lg">
-                
-                <img class = "h-4/6 w-full sm:w-48 sm:h-4/6 rounded-lg shadow-lg"
-                src="/static/movies/assets/img/{{ movie.title |slugify}}.jpg" 
-                alt="{{ movie.title }} poster">
-                <div clas "p-2">
-                    <h1 class="text-nowrap text-ellipsis overflow-hidden">
-                        <a class="mt-2 font-semibold" href="/movies/{{ movie.id }}/">{{ movie.title }}</a>
-                    </h1>
-                    
-                    <p class "text-nowrap p-2">
-                    {{ movie.release_date |date:"M. j, Y"}}
-                    </p>
+    {% if movie_list %}
+        <div id="movie_list" class="flex flex-wrap overflow-x-scroll overflow-y-hidden justify-center">
+            {% for movie in movie_list %}
+                <div class="flex-none w-full h-full bg-slate-200 sm:w-48 sm:h-96 mx-2 my-4 rounded-lg">
+                    <img class="h-4/6 w-full sm:w-48 sm:h-4/6 rounded-lg shadow-lg"
+                         src="/static/movies/assets/img/{{ movie.title |slugify }}.jpg"
+                         alt="{{ movie.title }} poster">
+                    <div class="p-2">
+                        <h1 class="text-nowrap text-ellipsis overflow-hidden">
+                            <a class="mt-2 font-semibold" href="/movies/{{ movie.id }}/">{{ movie.title }}</a>
+                        </h1>
+                        <p class="text-nowrap p-2">
+                            {{ movie.release_date | date:"M. j, Y" }}
+                        </p>
+                    </div>
                 </div>
-            </div>
-    {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
         
-    <h1 class="font-bold">Lista de Películas:</h1>
-    {% for movie in movie_list%}
-        <li class =  "font-medium"><a href= "/movies/{{ movie.id }}/"> {{ movie.title }}  ({{ movie.release_date |date:"Y"}})</a></li>
-    {% endfor %}
-    
-{% else %}
-    <p>No movies are available.</p>
-{% endif %}
+        <h1 class="font-bold">Lista de Películas:</h1>
+        <ul>
+            {% for movie in movie_list %}
+                <li class="font-medium"><a href="/movies/{{ movie.id }}/">{{ movie.title }} ({{ movie.release_date | date:"Y" }})</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No movies are available.</p>
+    {% endif %}
 
-
-
+    <h1 class="font-bold mt-8">Recommended Movies:</h1>
+    {% if recommended_movies %}
+        <div id="recommended_movies" class="flex flex-wrap overflow-x-scroll overflow-y-hidden justify-center">
+            {% for movie in recommended_movies %}
+                <div class="flex-none w-full h-full bg-slate-200 sm:w-48 sm:h-96 mx-2 my-4 rounded-lg">
+                    <img class="h-4/6 w-full sm:w-48 sm:h-4/6 rounded-lg shadow-lg"
+                         src="/static/movies/assets/img/{{ movie.title |slugify }}.jpg"
+                         alt="{{ movie.title }} poster">
+                    <div class="p-2">
+                        <h1 class="text-nowrap text-ellipsis overflow-hidden">
+                            <a class="mt-2 font-semibold" href="/movies/{{ movie.id }}/">{{ movie.title }}</a>
+                        </h1>
+                        <p class="text-nowrap p-2">
+                            Average Rating: {{ movie.avg_rating|floatformat:1|default:"N/A" }} stars
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No recommended movies available.</p>
+    {% endif %}
 {% endblock article %}
-
